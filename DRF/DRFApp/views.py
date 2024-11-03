@@ -48,3 +48,6 @@ def DRFQuest_create(request):
             res = {'msg': 'Data Created SuccessFully'}
             json_data = JSONRenderer().render(res)
             return HttpResponse(json_data, content_type='application/json')
+        
+        json_data = JSONRenderer().render(serializer.errors)
+        return HttpResponse(json_data, content_type='application/json')
