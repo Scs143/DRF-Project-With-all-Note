@@ -23,7 +23,7 @@ def DRFQuest_ins(request, pk):
     # complex data 
     drf = DRFQuest.objects.get(id=pk)
     # Convert python dic it's mean native data 
-    serializer = DRFSerializer(drf, many=False)
+    serializer = DRFSerializer(drf)
     # Jason render
     jason_render = JSONRenderer().render(serializer.data)
     # Json Sent to user 
