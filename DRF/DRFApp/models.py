@@ -6,5 +6,3 @@ class DRFQuest(models.Model):
     course_name = models.CharField(max_length=50)
     course_duration = models.IntegerField()
     seat = models.IntegerField()
-
-#
