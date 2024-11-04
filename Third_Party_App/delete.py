@@ -4,7 +4,7 @@ import json
 URL = "http://127.0.0.1:8000/drfcreate/"
 
 data = {
-    'id': 5,
+    'id': 2,
 }
 
 json_data = json.dumps(data) # dumps convert python data into json data

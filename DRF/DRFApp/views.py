@@ -35,6 +35,7 @@ def DRFQuest_ins(request, pk):
 
 @csrf_exempt
 def DRFQuest_create(request):
+    # Create
     if request.method == 'POST':
         jason_data = request.body
         # json to stream convert
@@ -52,7 +53,7 @@ def DRFQuest_create(request):
         json_data = JSONRenderer().render(serializer.errors)
         return HttpResponse(json_data, content_type='application/json')
     
-    
+    # Update 
     if request.method == 'PUT':
         jason_data = request.body
         # json to stream convert
@@ -72,7 +73,7 @@ def DRFQuest_create(request):
         json_data = JSONRenderer().render(serializer.errors)
         return HttpResponse(json_data, content_type='application/json')
     
-    
+    # Delete
     if request.method == 'DELETE':
         jason_data = request.body
         # json to stream convert
