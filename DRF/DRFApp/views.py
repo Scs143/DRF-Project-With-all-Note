@@ -7,29 +7,27 @@ from django.views.decorators.csrf import csrf_exempt
 import io
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
+from rest_framework.views import APIView
 from rest_framework.response import Response
 
 
 # # Create your views here.
-# api_view or function based view
-@api_view(['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
-@csrf_exempt
-def DRFQuest_create(request, pk=None):
-    if request.method == 'GET':
-        id = pk
-        if id is not None:
+# Class Based APIView
+class DRFQuest_create(APIView):
+    def get(self, request, pk=None, format=None):
+        if pk is not None:
             #Complex data
-            drf = DRFQuest.objects.get(id=id)
-            # Convert into Python Dic 
+            drf = DRFQuest.objects.get(id=pk)
+            # Convert into Python Dic
             serializer = DRFSerializer(drf)
             return Response(serializer.data)
-        # Complex data 
+        # Complex data
         drf = DRFQuest.objects.all()
-        # Python Dic 
+        # Python Dic
         serializer = DRFSerializer(drf, many=True)
         return Response(serializer.data)
 
-    if request.method == 'POST':
+    def post(self, request, format=None):
         jason_data = request.data # Parse data
         serializer = DRFSerializer(data=jason_data)
         if serializer.is_valid():
@@ -37,18 +35,16 @@ def DRFQuest_create(request, pk=None):
             return Response({'msg': 'Data Has Been Created SuccessFully'})
         return Response(serializer.errors)
 
-    if request.method == 'PUT':
-        id = pk
-        drf = DRFQuest.objects.get(id=id)
+    def put(self, request, pk, format=None):
+        drf = DRFQuest.objects.get(id=pk)
         serializer = DRFSerializer(drf, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response({'msg': 'Full Data has been Updated SuccessFully'})
         return Response(serializer.errors)
-    
-    if request.method == 'PATCH':
-        id = pk
-        drf = DRFQuest.objects.get(id=id)
+
+    def patch(self, request, pk, format=None):
+        drf = DRFQuest.objects.get(id=pk)
         serializer = DRFSerializer(drf, data=request.data, partial = True)
         if serializer.is_valid():
             serializer.save()
@@ -56,11 +52,63 @@ def DRFQuest_create(request, pk=None):
         return Response(serializer.errors)
 
 
-    if request.method == 'DELETE':
-        id = pk
-        drf = DRFQuest.objects.get(id=id)
+    def delete(self, request, pk, format=None):
+        drf = DRFQuest.objects.get(id=pk)
         drf.delete()
         return Response({'msg': 'ID Data has been Deleted SuccessFully'})
+
+
+
+# api_view or function based view
+# @api_view(['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
+# @csrf_exempt
+# def DRFQuest_create(request, pk=None):
+    # if request.method == 'GET':
+    #     id = pk
+    #     if id is not None:
+    #         #Complex data
+    #         drf = DRFQuest.objects.get(id=id)
+    #         # Convert into Python Dic 
+    #         serializer = DRFSerializer(drf)
+    #         return Response(serializer.data)
+    #     # Complex data 
+    #     drf = DRFQuest.objects.all()
+    #     # Python Dic 
+    #     serializer = DRFSerializer(drf, many=True)
+    #     return Response(serializer.data)
+
+    # if request.method == 'POST':
+    #     jason_data = request.data # Parse data
+    #     serializer = DRFSerializer(data=jason_data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response({'msg': 'Data Has Been Created SuccessFully'})
+    #     return Response(serializer.errors)
+
+    # if request.method == 'PUT':
+    #     id = pk
+    #     drf = DRFQuest.objects.get(id=id)
+    #     serializer = DRFSerializer(drf, data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response({'msg': 'Full Data has been Updated SuccessFully'})
+    #     return Response(serializer.errors)
+    
+    # if request.method == 'PATCH':
+    #     id = pk
+    #     drf = DRFQuest.objects.get(id=id)
+    #     serializer = DRFSerializer(drf, data=request.data, partial = True)
+    #     if serializer.is_valid():
+    #         serializer.save()
+    #         return Response({'msg': 'Partial Data has been Updated SuccessFully'})
+    #     return Response(serializer.errors)
+
+
+    # if request.method == 'DELETE':
+    #     id = pk
+    #     drf = DRFQuest.objects.get(id=id)
+    #     drf.delete()
+    #     return Response({'msg': 'ID Data has been Deleted SuccessFully'})
 
 
 
