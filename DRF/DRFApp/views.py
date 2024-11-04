@@ -11,8 +11,8 @@ from rest_framework.response import Response
 
 
 # # Create your views here.
-# api_view
-@api_view(['GET', 'POST', 'PUT', 'PATCH'])
+# api_view or function based view
+@api_view(['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
 @csrf_exempt
 def DRFQuest_create(request, pk=None):
     if request.method == 'GET':
@@ -56,11 +56,11 @@ def DRFQuest_create(request, pk=None):
         return Response(serializer.errors)
 
 
-    # if request.method == 'DELETE':
-    #     id = pk
-    #     drf = DRFQuest.objects.get(id=id)
-    #     drf.delete()
-    #     return Response({'msg': 'Data Deleted'})
+    if request.method == 'DELETE':
+        id = pk
+        drf = DRFQuest.objects.get(id=id)
+        drf.delete()
+        return Response({'msg': 'ID Data has been Deleted SuccessFully'})
 
 
 
