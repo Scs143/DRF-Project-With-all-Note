@@ -71,3 +71,17 @@ def DRFQuest_create(request):
 
         json_data = JSONRenderer().render(serializer.errors)
         return HttpResponse(json_data, content_type='application/json')
+    
+    
+    if request.method == 'DELETE':
+        jason_data = request.body
+        # json to stream convert
+        stream = io.BytesIO(jason_data)
+        # Stream to python data
+        python_data = JSONParser().parse(stream)
+        id = python_data.get('id')
+        drf = DRFQuest.objects.get(id=id)
+        drf.delete()
+        res = {'msg': 'Data Deleted SuccessFully'}
+        json_data = JSONRenderer().render(res)
+        return HttpResponse(json_data, content_type='application/json')
