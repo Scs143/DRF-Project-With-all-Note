@@ -11,23 +11,41 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import ListModelMixin, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+
+
 
 
 # # Create your views here.
-# GenericAPIView CRUD
-class DRFQuest_crud(GenericAPIView, ListModelMixin, CreateModelMixin, UpdateModelMixin, RetrieveModelMixin, DestroyModelMixin):
+# <------------------------------ListCreateAPiView CRUD---------------------------------------->
+
+class DRFQuest_List_Create(ListCreateAPIView):
     queryset = DRFQuest.objects.all()
     serializer_class = DRFSerializer
-    def get(self, request, pk=None, format=None):
-        if pk is not None:
-            return self.retrieve(request, pk)
-        return self.list(request)
-    def post(self, request, format=None):
-        return self.create(request)
-    def put(self, request, pk=None, format=None):
-        return self.update(request, pk)
-    def delete(self, request, pk=None, format=None):
-        return self.destroy(request, pk)
+
+
+class DRFQuest_Retrieve_Update_Destroy(RetrieveUpdateDestroyAPIView):
+    queryset = DRFQuest.objects.all()
+    serializer_class = DRFSerializer
+
+
+
+
+# <------------------------------Mixin CRUD---------------------------------------->
+# GenericAPIView CRUD
+# class DRFQuest_crud(GenericAPIView, ListModelMixin, CreateModelMixin, UpdateModelMixin, RetrieveModelMixin, DestroyModelMixin):
+#     queryset = DRFQuest.objects.all()
+#     serializer_class = DRFSerializer
+#     def get(self, request, pk=None, format=None):
+#         if pk is not None:
+#             return self.retrieve(request, pk)
+#         return self.list(request)
+#     def post(self, request, format=None):
+#         return self.create(request)
+#     def put(self, request, pk=None, format=None):
+#         return self.update(request, pk)
+#     def delete(self, request, pk=None, format=None):
+#         return self.destroy(request, pk)
 
 
 

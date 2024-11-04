@@ -21,6 +21,7 @@ urlpatterns = [
     # path('drfcreate/', views.DRFQuest_create.as_view()),
     # path('drfcreate/<int:pk>/', views.DRFQuest_create.as_view()),
     
+
     # <------------------------------GenericAPIView---------------------------------------->
     # # ListModelMixin
     # path('drflist/', views.DRFQuest_ListView.as_view()),
@@ -35,8 +36,14 @@ urlpatterns = [
 
 
 
-    # <------------------------------GenericAPIView CRUD---------------------------------------->
-    path('drfcrud/', views.DRFQuest_crud.as_view(), name='drfquest-list-create'),
-    path('drfcrud/<int:pk>/', views.DRFQuest_crud.as_view(), name='drfquest-detail'),
+    # # <------------------------------GenericAPIView CRUD---------------------------------------->
+    # path('drfcrud/', views.DRFQuest_crud.as_view(), name='drfquest-list-create'),
+    # path('drfcrud/<int:pk>/', views.DRFQuest_crud.as_view(), name='drfquest-detail'),
+
+
+    # <------------------------------ListCreateAPiView CRUD---------------------------------------->
+    path('drfcrud/', views.DRFQuest_List_Create.as_view(), name='drfquest-list-create'),
+    path('drfcrud/<int:pk>/', views.DRFQuest_Retrieve_Update_Destroy.as_view(), name='drfquest-detail'),
+
 
 ]
