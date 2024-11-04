@@ -9,57 +9,117 @@ from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.generics import GenericAPIView
+from rest_framework.mixins import ListModelMixin, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin
 
 
 # # Create your views here.
-# Class Based APIView
-class DRFQuest_create(APIView):
+# GenericAPIView CRUD
+class DRFQuest_crud(GenericAPIView, ListModelMixin, CreateModelMixin, UpdateModelMixin, RetrieveModelMixin, DestroyModelMixin):
+    queryset = DRFQuest.objects.all()
+    serializer_class = DRFSerializer
     def get(self, request, pk=None, format=None):
         if pk is not None:
-            #Complex data
-            drf = DRFQuest.objects.get(id=pk)
-            # Convert into Python Dic
-            serializer = DRFSerializer(drf)
-            return Response(serializer.data)
-        # Complex data
-        drf = DRFQuest.objects.all()
-        # Python Dic
-        serializer = DRFSerializer(drf, many=True)
-        return Response(serializer.data)
-
+            return self.retrieve(request, pk)
+        return self.list(request)
     def post(self, request, format=None):
-        jason_data = request.data # Parse data
-        serializer = DRFSerializer(data=jason_data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'msg': 'Data Has Been Created SuccessFully'})
-        return Response(serializer.errors)
-
-    def put(self, request, pk, format=None):
-        drf = DRFQuest.objects.get(id=pk)
-        serializer = DRFSerializer(drf, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'msg': 'Full Data has been Updated SuccessFully'})
-        return Response(serializer.errors)
-
-    def patch(self, request, pk, format=None):
-        drf = DRFQuest.objects.get(id=pk)
-        serializer = DRFSerializer(drf, data=request.data, partial = True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({'msg': 'Partial Data has been Updated SuccessFully'})
-        return Response(serializer.errors)
-
-
-    def delete(self, request, pk, format=None):
-        drf = DRFQuest.objects.get(id=pk)
-        drf.delete()
-        return Response({'msg': 'ID Data has been Deleted SuccessFully'})
+        return self.create(request)
+    def put(self, request, pk=None, format=None):
+        return self.update(request, pk)
+    def delete(self, request, pk=None, format=None):
+        return self.destroy(request, pk)
 
 
 
-# api_view or function based view
+
+# <------------------------------GenericAPIView---------------------------------------->
+# ListModelMixin
+# class DRFQuest_ListView(GenericAPIView, ListModelMixin):
+#     queryset = DRFQuest.objects.all()
+#     serializer_class = DRFSerializer
+#     def get(self, request, *args, **kwargs):
+#         return self.list(request, *args, **kwargs)
+    
+# # CreateModelMixin
+# class DRFQuest_CreateView(GenericAPIView, CreateModelMixin):
+#     queryset = DRFQuest.objects.all()
+#     serializer_class = DRFSerializer
+#     def post(self, request, *args, **kwargs):
+#         return self.create(request, *args, **kwargs)
+    
+# # RetrieveModelMixin
+# class DRFQuest_RetrieveView(GenericAPIView, RetrieveModelMixin):
+#     queryset = DRFQuest.objects.all()
+#     serializer_class = DRFSerializer
+#     def get(self, request, *args, **kwargs):
+#         return self.retrieve(request, *args, **kwargs)
+    
+# # UpdateModelMixin
+# class DRFQuest_UpdateView(GenericAPIView, UpdateModelMixin):
+#     queryset = DRFQuest.objects.all()
+#     serializer_class = DRFSerializer
+#     def put(self, request, *args, **kwargs):
+#         return self.update(request, *args, **kwargs)
+
+# # DestroyModelMixin
+# class DRFQuest_DeleteView(GenericAPIView, DestroyModelMixin):
+#     queryset = DRFQuest.objects.all()
+#     serializer_class = DRFSerializer
+#     def delete(self, request, *args, **kwargs):
+#         return self.destroy(request, *args, **kwargs)
+    
+    
+
+
+# <------------------------------Class Based APIView---------------------------------------->
+# class DRFQuest_create(APIView):
+#     def get(self, request, pk=None, format=None):
+#         if pk is not None:
+#             #Complex data
+#             drf = DRFQuest.objects.get(id=pk)
+#             # Convert into Python Dic
+#             serializer = DRFSerializer(drf)
+#             return Response(serializer.data)
+#         # Complex data
+#         drf = DRFQuest.objects.all()
+#         # Python Dic
+#         serializer = DRFSerializer(drf, many=True)
+#         return Response(serializer.data)
+
+#     def post(self, request, format=None):
+#         jason_data = request.data # Parse data
+#         serializer = DRFSerializer(data=jason_data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response({'msg': 'Data Has Been Created SuccessFully'})
+#         return Response(serializer.errors)
+
+#     def put(self, request, pk, format=None):
+#         drf = DRFQuest.objects.get(id=pk)
+#         serializer = DRFSerializer(drf, data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response({'msg': 'Full Data has been Updated SuccessFully'})
+#         return Response(serializer.errors)
+
+#     def patch(self, request, pk, format=None):
+#         drf = DRFQuest.objects.get(id=pk)
+#         serializer = DRFSerializer(drf, data=request.data, partial = True)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response({'msg': 'Partial Data has been Updated SuccessFully'})
+#         return Response(serializer.errors)
+
+
+#     def delete(self, request, pk, format=None):
+#         drf = DRFQuest.objects.get(id=pk)
+#         drf.delete()
+#         return Response({'msg': 'ID Data has been Deleted SuccessFully'})
+
+
+
+# <------------------------------api_view or function based view---------------------------------------->
+
 # @api_view(['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
 # @csrf_exempt
 # def DRFQuest_create(request, pk=None):
@@ -112,7 +172,7 @@ class DRFQuest_create(APIView):
 
 
 
-
+# <------------------------------Third Party app basic things---------------------------------------->
 
 # # This is just test perpouse run by Third Party app basic things
 # # Create your views here.
