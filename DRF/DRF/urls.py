@@ -2,6 +2,14 @@ from django.contrib import admin
 from django.urls import path, include
 from DRFApp import views
 
+# Model View SET 
+from rest_framework.routers import DefaultRouter
+# Create router object 
+router = DefaultRouter()
+# Register
+router.register('drfcrud', views.DRFQuest_Model_View_Set, basename='teacher')
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
@@ -41,9 +49,14 @@ urlpatterns = [
     # path('drfcrud/<int:pk>/', views.DRFQuest_crud.as_view(), name='drfquest-detail'),
 
 
-    # <------------------------------ListCreateAPiView CRUD---------------------------------------->
-    path('drfcrud/', views.DRFQuest_List_Create.as_view(), name='drfquest-list-create'),
-    path('drfcrud/<int:pk>/', views.DRFQuest_Retrieve_Update_Destroy.as_view(), name='drfquest-detail'),
+    # # <------------------------------ListCreateAPiView CRUD---------------------------------------->
+    # path('drfcrud/', views.DRFQuest_List_Create.as_view(), name='drfquest-list-create'),
+    # path('drfcrud/<int:pk>/', views.DRFQuest_Retrieve_Update_Destroy.as_view(), name='drfquest-detail'),
+
+
+
+    # <------------------------------Model View Set CRUD---------------------------------------->
+    path('', include(router.urls)),
 
 
 ]

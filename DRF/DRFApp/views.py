@@ -12,21 +12,29 @@ from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView
 from rest_framework.mixins import ListModelMixin, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework import viewsets
 
 
 
 
 # # Create your views here.
+# <------------------------------Model View Set CRUD---------------------------------------->
+
+class DRFQuest_Model_View_Set(viewsets.ModelViewSet):
+    queryset = DRFQuest.objects.all()
+    serializer_class = DRFSerializer
+
+
 # <------------------------------ListCreateAPiView CRUD---------------------------------------->
 
-class DRFQuest_List_Create(ListCreateAPIView):
-    queryset = DRFQuest.objects.all()
-    serializer_class = DRFSerializer
+# class DRFQuest_List_Create(ListCreateAPIView):
+#     queryset = DRFQuest.objects.all()
+#     serializer_class = DRFSerializer
 
 
-class DRFQuest_Retrieve_Update_Destroy(RetrieveUpdateDestroyAPIView):
-    queryset = DRFQuest.objects.all()
-    serializer_class = DRFSerializer
+# class DRFQuest_Retrieve_Update_Destroy(RetrieveUpdateDestroyAPIView):
+#     queryset = DRFQuest.objects.all()
+#     serializer_class = DRFSerializer
 
 
 
